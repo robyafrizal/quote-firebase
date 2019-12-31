@@ -40,5 +40,10 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "description": "Learn to connect with firebase",
+  "main": "index.js",
+  "repository": "https://github.com/robyafrizal/quote-firebase.git",
+  "author": "Roby Afrizal Palmendha",
+  "license": "MIT"
 }
