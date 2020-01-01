@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import firebase from "../../../config/firebase";
 
 import "./Register.scss";
+import Button from "../../../components/atoms/Button";
 
 class Register extends Component {
   state = {
@@ -55,9 +56,11 @@ class Register extends Component {
             onChange={this.handleChangeText}
           />
 
-          <button className="btn" onClick={this.handleRegisterSubmit}>
+          {/* <button className="btn" onClick={this.handleRegisterSubmit}>
             Register
-          </button>
+          </button> 
+          //Tidak digunakan lagi karena sudah menggunakan redux*/}
+          <Button onClick={this.handleRegisterSubmit} title="Register" />
           <br />
           <br />
           <button className="btn" type="button">

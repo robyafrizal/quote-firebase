@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { Button, Form } from "semantic-ui-react";
 import { connect } from "react-redux";
+
+import { actionUserName } from "../../../config/redux/action";
 class Login extends Component {
   changeUser = () => {
     this.props.changeUserName();
@@ -32,13 +34,6 @@ class Login extends Component {
     );
   }
 }
-const actionUserName = () => {
-  return dispatch => {
-    setTimeout(() => {
-      return dispatch({ type: "CHANGE_USER", value: "Roby Afrizal Palmendha" });
-    }, 2000);
-  };
-};
 
 const reduxState = state => ({
   popupProps: state.popup,
@@ -46,12 +41,12 @@ const reduxState = state => ({
 });
 
 const reduxDispatch = dispatch => ({
-  changeUserName: () => dispatch(actionUserName()),
   changePopup: () =>
     dispatch({
       type: "CHANGE_POPUP",
       value: "Welcome"
-    })
+    }),
+  changeUserName: () => dispatch(actionUserName())
 });
 
 export default connect(reduxState, reduxDispatch)(Login);
