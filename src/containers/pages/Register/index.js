@@ -1,8 +1,9 @@
 import React, { Component } from "react";
-import firebase from "../../../config/firebase";
+import { connect } from "react-redux";
 
 import "./Register.scss";
 import Button from "../../../components/atoms/Button";
+import { registerUserAPI } from "../../../config/redux/action";
 
 class Register extends Component {
   state = {
@@ -18,17 +19,26 @@ class Register extends Component {
   handleRegisterSubmit = () => {
     const { email, password } = this.state;
     console.log("Data yang dikirim: ", email, password);
-    firebase
-      .auth()
-      .createUserWithEmailAndPassword(email, password)
-      .then(res => {
-        console.log("success: ", res);
-      })
-      .catch(function(error) {
-        var errorCode = error.code;
-        var errorMessage = error.message;
-        console.log(errorCode, errorMessage);
-      });
+    this.props.registerAPI({ email: email, password: password });
+    //cara penulisan lain :   this.props.registerAPI({ email, password});
+
+    this.setState({
+      email: "",
+      password: ""
+    });
+
+    //sudah dipindah ke folder action index.js
+    // firebase
+    //   .auth()
+    //   .createUserWithEmailAndPassword(email, password)
+    //   .then(res => {
+    //     console.log("success: ", res);
+    //   })
+    //   .catch(function(error) {
+    //     var errorCode = error.code;
+    //     var errorMessage = error.message;
+    //     console.log(errorCode, errorMessage);
+    //   });
   };
   render() {
     return (
@@ -44,6 +54,7 @@ class Register extends Component {
             type="email"
             id="email"
             placeholder="Your Email"
+            value={this.state.email}
             onChange={this.handleChangeText}
           />
 
@@ -53,6 +64,7 @@ class Register extends Component {
             type="password"
             id="password"
             placeholder="Your Password"
+            value={this.state.password}
             onChange={this.handleChangeText}
           />
 
@@ -60,7 +72,11 @@ class Register extends Component {
             Register
           </button> 
           //Tidak digunakan lagi karena sudah menggunakan redux*/}
-          <Button onClick={this.handleRegisterSubmit} title="Register" />
+          <Button
+            onClick={this.handleRegisterSubmit}
+            title="Register"
+            loading={this.props.isLoading}
+          />
           <br />
           <br />
           <button className="btn" type="button">
@@ -75,4 +91,11 @@ class Register extends Component {
   }
 }
 
-export default Register;
+const reduxState = state => ({
+  isLoading: state.isLoading
+});
+const reduxDispatch = dispatch => ({
+  registerAPI: data => dispatch(registerUserAPI(data))
+});
+
+export default connect(reduxState, reduxDispatch)(Register);
