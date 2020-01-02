@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button, Form } from "semantic-ui-react";
+
 import { connect } from "react-redux";
 class Login extends Component {
   changeUser = () => {
@@ -8,27 +8,48 @@ class Login extends Component {
   };
   render() {
     return (
-      <Form>
-        <h2>
-          Login Page - {this.props.popupProps} {this.props.userName}
-        </h2>
-        <Form.Field>
+      <div className="auth-container">
+        <div className="auth-card">
+          <h2 className="auth-title">
+            Login Page - {this.props.popupProps} {this.props.userName}
+          </h2>
+          {/* <label>Name</label>
+  <input className="input" type="text" placeholder="Your Name" /> */}
+
           <label>Email</label>
-          <input type="email" placeholder="Your Email" />
-        </Form.Field>
-        <Form.Field>
+          <input
+            className="input"
+            type="email"
+            id="email"
+            placeholder="Your Email"
+            onChange={this.handleChangeText}
+          />
+
           <label>Password</label>
-          <input type="password" placeholder="Your Password" />
-        </Form.Field>
-        <Button type="submit">Login</Button>
-        <br />
-        <br />
-        <Button type="button" onClick={this.changeUser}>
-          Change User Name
-        </Button>
-        <Button type="button">Go to Register</Button>
-        <Button type="button">Go to Dashboard</Button>
-      </Form>
+          <input
+            className="input"
+            type="password"
+            id="password"
+            placeholder="Your Password"
+            onChange={this.handleChangeText}
+          />
+
+          <button className="btn" onClick={this.handleRegisterSubmit}>
+            Register
+          </button>
+          <br />
+          <br />
+          <button className="btn" type="button" onClick={this.changeUser}>
+            CHange User Name
+          </button>
+          <button className="btn" type="button">
+            Go to Dashboard
+          </button>
+          <button className="btn" type="button">
+            Go to Register
+          </button>
+        </div>
+      </div>
     );
   }
 }
