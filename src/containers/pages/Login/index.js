@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import { Button, Form, Segment } from "semantic-ui-react";
+import firebase from "../../../config/firebase";
+
 import { connect } from "react-redux";
 
 import { actionUserName } from "../../../config/redux/action";
@@ -8,41 +9,73 @@ class Login extends Component {
     this.props.changeUserName();
     this.props.changePopup();
   };
+  state = {
+    email: "",
+    password: ""
+  };
+  handleChangeText = e => {
+    this.setState({
+      [e.target.id]: e.target.value
+    });
+  };
+  handleRegisterSubmit = () => {
+    const { email, password } = this.state;
+    console.log("Data yang dikirim: ", email, password);
+    firebase
+      .auth()
+      .createUserWithEmailAndPassword(email, password)
+      .then(res => {
+        console.log("success: ", res);
+      })
+      .catch(function(error) {
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        console.log(errorCode, errorMessage);
+      });
+  };
+
   render() {
     return (
-      <Segment
-        inverted
-        className="text-center"
-        style={{ width: "80%", margin: "auto" }}
-      >
-        <Form inverted>
-          <h2>
+      <div className="auth-container">
+        <div className="auth-card">
+          <h2 className="auth-title">
             Login Page - {this.props.popupProps} {this.props.userName}
           </h2>
-          <center className="my-5">
-            <Form.Field width={8}>
-              <label>Email</label>
-              <input type="email" placeholder="Your Email" />
-            </Form.Field>
-            <Form.Field width={8}>
-              <label>Password</label>
-              <input type="password" placeholder="Your Password" />
-            </Form.Field>
+          <center>
+            <label>Email</label>
+            <input
+              className="input"
+              type="email"
+              id="email"
+              placeholder="Your Email"
+              onChange={this.handleChangeText}
+            />
+
+            <label>Password</label>
+            <input
+              className="input"
+              type="password"
+              id="password"
+              placeholder="Your Password"
+              onChange={this.handleChangeText}
+            />
           </center>
-          <Button
-            onClick={this.handleLoginSubmit}
-            title="Lgin"
-            loading={this.props.isLoading}
-          />
+          <button className="btn" onClick={this.handleLoginSubmit}>
+            Login
+          </button>
           <br />
           <br />
-          <Button type="button" onClick={this.changeUser}>
-            Change User Name
-          </Button>
-          <Button type="button">Go to Register</Button>
-          <Button type="button">Go to Dashboard</Button>
-        </Form>
-      </Segment>
+          <button className="btn" type="button" onClick={this.changeUser}>
+            CHange User Name
+          </button>
+          <button className="btn" type="button">
+            Go to Dashboard
+          </button>
+          <button className="btn" type="button">
+            Go to Register
+          </button>
+        </div>
+      </div>
     );
   }
 }
